@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import './App.css'
 
-function App() {
+export const App = () => {
+  const[todo,setTodo]=useState("");
+  const[todos,setTodos]=useState([]);
+  const addTodo=()=>{
+    if(todo!==""){
+      setTodos([...todos,todo]);
+      setTodo("sdfs");
+    }
+  };
+  const delTodo=(text)=>{
+    const newTodos=todos.filter((todo)=>{
+        return todo!==text;
+  });
+  setTodos(newTodos);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <h2>React Todo</h2>
+      <input 
+      type='text' 
+      className='add-todo form-control' 
+      placeholder='Create a new to-do'
+      onChange={(e)=>{
+        setTodo(e.target.value);
+      }}
+      />
+      <button className='add-todo btn btn-primary' onClick={addTodo} >Add</button>
+      {todos?.length>0?(
+        <ul className='todo-list'>
+          {todos.map((todo,index)=>(
+            <div className='todo'>
+              <li key={index}>{todo}</li>
+              <button className='btn btn-danger' onClick={()=>{delTodo(todo)}}>Delete</button>
+            </div>
+          ))}
+        </ul>):(
+          <div className="empty">
+            <p>No task</p>
+          </div>)
+      }
     </div>
-  );
+  )
 }
-
 export default App;
